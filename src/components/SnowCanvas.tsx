@@ -125,6 +125,7 @@ export function SnowCanvas() {
 
       for (let i = bursts.length - 1; i >= 0; i--) {
         const b = bursts[i];
+        if (!b) continue;
         b.vx *= 0.96;
         b.vy = b.vy * 0.96 + 0.08;
         b.x += b.vx;

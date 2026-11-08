@@ -11,7 +11,7 @@ import bunnyTree from "@/assets/stickers/bunny-tree.webp";
 import wolfHappy from "@/assets/stickers/wolf-happy.webp";
 import wolfGift from "@/assets/stickers/wolf-gift.webp";
 
-export const STICKERS = [
+export const STICKERS: string[] = [
   wolfHappy,
   chickHeart,
   pinkHat,
@@ -24,7 +24,7 @@ export const STICKERS = [
   pinkGift,
   quokkaMug,
   bunnyTree,
-] as const;
+];
 
 export type Day = {
   day: number;
@@ -34,7 +34,7 @@ export type Day = {
 /** The 24 doors. Each day's own content gets added to its page later. */
 export const DAYS: Day[] = Array.from({ length: 24 }, (_, i) => ({
   day: i + 1,
-  sticker: STICKERS[i % STICKERS.length],
+  sticker: STICKERS[i % STICKERS.length] ?? STICKERS[0]!,
 }));
 
 export function getDay(value: string): Day | undefined {

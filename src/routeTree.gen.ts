@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PuertasRouteImport } from './routes/puertas'
+import { Route as DiaDiaRouteImport } from './routes/dia.$dia'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PuertasRoute = PuertasRouteImport.update({
+  id: '/puertas',
+  path: '/puertas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiaDiaRoute = DiaDiaRouteImport.update({
+  id: '/dia/$dia',
+  path: '/dia/$dia',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/puertas': typeof PuertasRoute
+  '/dia/$dia': typeof DiaDiaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/puertas': typeof PuertasRoute
+  '/dia/$dia': typeof DiaDiaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/puertas': typeof PuertasRoute
+  '/dia/$dia': typeof DiaDiaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/puertas' | '/dia/$dia'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/puertas' | '/dia/$dia'
+  id: '__root__' | '/' | '/puertas' | '/dia/$dia'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PuertasRoute: typeof PuertasRoute
+  DiaDiaRoute: typeof DiaDiaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/puertas': {
+      id: '/puertas'
+      path: '/puertas'
+      fullPath: '/puertas'
+      preLoaderRoute: typeof PuertasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dia/$dia': {
+      id: '/dia/$dia'
+      path: '/dia/$dia'
+      fullPath: '/dia/$dia'
+      preLoaderRoute: typeof DiaDiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PuertasRoute: PuertasRoute,
+  DiaDiaRoute: DiaDiaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -16,7 +16,7 @@ export function Lights() {
         {Array.from({ length: COUNT }, (_, i) => (
           <span
             key={i}
-            className={`bulb ${i % 2 === 1 ? "mt-[22px] max-sm:mt-[18px]" : "mt-[6px]"} ${i % 2 === 1 && i % 4 === 3 ? "max-sm:hidden" : ""}`}
+            className={`bulb ${i % 2 === 1 ? "mt-[20px]" : "mt-[6px]"}`}
             style={
               {
                 "--c": COLORS[i % COLORS.length],

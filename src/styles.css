@@ -11,25 +11,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Design system definition.
- *
- * The design lives in this file: oklch color tokens on the shadcn variables
- * (--background, --foreground, --primary, --secondary, --muted, --accent, ...) plus
- * new tokens as needed, font tokens, and custom styles and animations.
- *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
- *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
- */
-
 @theme inline {
+  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
+  --font-sans: "Nunito", ui-rounded, system-ui, sans-serif;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -57,6 +42,11 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-berry: var(--berry);
+  --color-snow: var(--snow);
+  --color-wood: var(--wood);
+  --color-wood-dark: var(--wood-dark);
+  --color-gold: var(--gold);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -73,26 +63,51 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --radius: 1rem;
+  --background: oklch(0.86 0.06 290);
+  --foreground: oklch(0.32 0.11 355);
+  --card: oklch(0.98 0.015 350);
+  --card-foreground: oklch(0.32 0.11 355);
+  --popover: oklch(0.98 0.015 350);
+  --popover-foreground: oklch(0.32 0.11 355);
+  --primary: oklch(0.6 0.2 5);
+  --primary-foreground: oklch(0.99 0.005 350);
+  --secondary: oklch(0.93 0.04 350);
+  --secondary-foreground: oklch(0.36 0.12 355);
+  --muted: oklch(0.93 0.03 300);
+  --muted-foreground: oklch(0.5 0.07 320);
+  --accent: oklch(0.85 0.13 85);
+  --accent-foreground: oklch(0.3 0.08 50);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.88 0.04 340);
+  --input: oklch(0.88 0.04 340);
+  --ring: oklch(0.6 0.2 5);
+
+  /* Christmas palette */
+  --berry: oklch(0.42 0.15 355);
+  --snow: oklch(0.99 0.008 300);
+  --wood: oklch(0.62 0.11 55);
+  --wood-light: oklch(0.72 0.11 62);
+  --wood-dark: oklch(0.45 0.09 45);
+  --gold: oklch(0.84 0.15 85);
+  --glow-warm: oklch(0.92 0.12 85);
+  --candy-red: oklch(0.6 0.22 18);
+  --candy-pink: oklch(0.72 0.17 0);
+
+  --bulb-red: oklch(0.66 0.25 25);
+  --bulb-gold: oklch(0.88 0.17 90);
+  --bulb-green: oklch(0.78 0.2 145);
+  --bulb-blue: oklch(0.72 0.16 240);
+  --bulb-pink: oklch(0.76 0.18 350);
+
+  --gradient-wood: linear-gradient(160deg, var(--wood-light), var(--wood) 55%, var(--wood-dark));
+  --gradient-candy: linear-gradient(180deg, var(--candy-pink), var(--candy-red));
+  --gradient-doorway: radial-gradient(circle at 50% 60%, var(--glow-warm), oklch(0.78 0.14 60) 55%, oklch(0.5 0.12 40));
+  --shadow-door: 0 10px 22px -8px oklch(0.3 0.1 300 / 45%);
+  --shadow-candy: 0 6px 0 oklch(0.42 0.17 15), 0 14px 28px -6px oklch(0.45 0.2 10 / 55%);
+  --shadow-title: 0 4px 0 var(--snow), 0 8px 24px oklch(0.99 0.01 350 / 90%);
+
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -108,48 +123,311 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
 
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
-}
-
 @layer base {
   * {
     border-color: var(--color-border);
   }
 
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ---------- Lights ---------- */
+.lights-wire {
+  fill: none;
+  stroke: oklch(0.38 0.05 140);
+  stroke-width: 2.5px;
+}
+
+.bulb {
+  position: relative;
+  display: block;
+  width: 13px;
+  height: 18px;
+  border-radius: 48% 48% 50% 50%;
+  background: var(--c);
+  animation: bulb-blink 1s ease-in-out infinite alternate;
+}
+.bulb::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 3px;
+  width: 7px;
+  height: 6px;
+  border-radius: 2px;
+  background: oklch(0.45 0.04 140);
+}
+@keyframes bulb-blink {
+  0% {
+    opacity: 0.35;
+    filter: brightness(0.75);
+    box-shadow: 0 0 2px 0 var(--c);
+  }
+  100% {
+    opacity: 1;
+    filter: brightness(1.35);
+    box-shadow:
+      0 0 12px 5px var(--c),
+      0 0 28px 10px color-mix(in oklab, var(--c) 55%, transparent);
+  }
+}
+
+/* ---------- Cover ---------- */
+.cover-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--berry);
+  text-shadow: var(--shadow-title);
+  animation: title-float 4.5s ease-in-out infinite;
+}
+@keyframes title-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.candy-button {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--primary-foreground);
+  text-shadow: 0 2px 0 oklch(0.42 0.17 15);
+  border: 6px solid transparent;
+  background:
+    var(--gradient-candy) padding-box,
+    repeating-linear-gradient(-45deg, var(--snow) 0 8px, var(--candy-red) 8px 16px) border-box;
+  background-size:
+    100% 100%,
+    45.25px 45.25px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-candy);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation:
+    candy-pulse 1.8s ease-in-out infinite,
+    candy-stripes 1.2s linear infinite;
+}
+.candy-button:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+.candy-button:active {
+  transform: translateY(3px) scale(0.98);
+}
+@keyframes candy-pulse {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.05;
+  }
+}
+@keyframes candy-stripes {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      0 0,
+      45.25px 0;
+  }
+}
+
+/* ---------- Doors ---------- */
+.door-cell {
+  perspective: 900px;
+  animation: door-sway 4s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes door-sway {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.2deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1.2deg);
+  }
+}
+
+.doorway {
+  background: var(--gradient-doorway);
+  border-radius: 48% 48% 10px 10px / 32% 32% 10px 10px;
+  box-shadow:
+    inset 0 0 0 5px var(--wood-dark),
+    inset 0 0 22px 8px oklch(0.45 0.12 40 / 60%),
+    var(--shadow-door);
+}
+
+.door-leaf {
+  background: var(--gradient-wood);
+  border-radius: 48% 48% 10px 10px / 32% 32% 10px 10px;
+  box-shadow:
+    inset 0 0 0 4px var(--wood-dark),
+    inset 0 -10px 18px oklch(0.4 0.08 40 / 35%);
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 0.85s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.door-leaf::before {
+  /* wood planks */
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 22%,
+    oklch(0.45 0.08 45 / 35%) 22% 23%
+  );
+}
+.door-cell:hover .door-leaf {
+  transform: rotateY(-28deg);
+}
+.door-cell[data-open="true"] .door-leaf {
+  transform: rotateY(-112deg);
+}
+
+.door-snow {
+  background: var(--snow);
+  border-radius: 999px 999px 40% 40% / 999px 999px 60% 60%;
+  box-shadow: 0 3px 0 oklch(0.88 0.03 290);
+}
+.door-snow::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  bottom: -7px;
+  width: 14px;
+  height: 12px;
+  border-radius: 0 0 999px 999px;
+  background: var(--snow);
+}
+
+.door-number {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--snow);
+  -webkit-text-stroke: 2px var(--candy-red);
+  paint-order: stroke fill;
+  text-shadow: 0 3px 0 var(--berry);
+}
+
+.door-knob {
+  background: radial-gradient(circle at 35% 35%, var(--snow), var(--gold) 45%, oklch(0.6 0.12 70));
+  animation: knob-glint 2.4s ease-in-out infinite;
+}
+@keyframes knob-glint {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--gold);
+  }
+  50% {
+    box-shadow: 0 0 10px 3px var(--gold);
+  }
+}
+
+.door-sticker {
+  filter: drop-shadow(0 6px 6px oklch(0.3 0.08 300 / 35%));
+  animation: sticker-peek 2.6s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  transform-origin: bottom center;
+  transition: scale 0.3s ease;
+}
+.door-cell:hover .door-sticker {
+  scale: 1.12;
+}
+.door-cell[data-open="true"] .door-sticker {
+  animation: sticker-jump 0.8s cubic-bezier(0.3, 1.6, 0.5, 1) forwards;
+}
+@keyframes sticker-peek {
+  0%,
+  100% {
+    transform: translateX(0) rotate(6deg);
+  }
+  50% {
+    transform: translateX(-6px) translateY(-6px) rotate(-5deg);
+  }
+}
+@keyframes sticker-jump {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  45% {
+    transform: translate(-40%, -45%) scale(1.15) rotate(-10deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-95%, -10%) scale(0.6) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.door-inner-sticker {
+  animation: inner-pop 0.7s 0.25s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+@keyframes inner-pop {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ---------- Day page ---------- */
+.day-sticker {
+  filter: drop-shadow(0 18px 18px oklch(0.3 0.1 300 / 40%));
+  animation: day-bounce 2.2s ease-in-out infinite;
+}
+@keyframes day-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-4deg) scale(1);
+  }
+  50% {
+    transform: translateY(-18px) rotate(4deg) scale(1.04);
+  }
+}
+
+.page-enter {
+  animation: page-enter 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door-cell,
+  .door-sticker,
+  .cover-title,
+  .candy-button,
+  .day-sticker {
+    animation: none;
   }
 }

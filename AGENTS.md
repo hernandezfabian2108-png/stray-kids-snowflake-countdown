@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Day data (number + sticker) lives in `src/lib/days.ts`; each door routes to `/dia/$dia`, whose page is where per-day content gets added. Why: one source of truth for the 24 doors.
+- Snow (`SnowCanvas`) and blinking lights (`Lights`) are mounted once in `__root.tsx` so they run on every page. Why: the effects must never stop between screens.
+- Stickers are pre-cut transparent WebP files in `src/assets/stickers/`. Why: the originals were badly cropped sheet fragments.
