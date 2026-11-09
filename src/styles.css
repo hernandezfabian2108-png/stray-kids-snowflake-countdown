@@ -655,7 +655,313 @@
   background: color-mix(in oklab, var(--paper-burn) 45%, transparent);
 }
 
+/* ---------- Radio SKZ ---------- */
+.radio-modal {
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 15% 10%, color-mix(in oklab, var(--snow) 90%, transparent), transparent 45%),
+    linear-gradient(160deg, var(--secondary), var(--muted));
+  box-shadow:
+    inset 0 0 0 6px var(--snow),
+    inset 0 0 0 10px color-mix(in oklab, var(--candy-red) 70%, transparent),
+    0 30px 60px -18px oklch(0.2 0.08 300 / 65%);
+  animation: radio-pop 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+}
+@keyframes radio-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+  }
+}
+.radio-close {
+  color: var(--primary-foreground);
+  background: var(--gradient-candy);
+  box-shadow: 0 3px 0 oklch(0.42 0.17 15);
+}
+.radio-note {
+  border-radius: 20px;
+  color: var(--foreground);
+  background: var(--card);
+  box-shadow:
+    inset 0 0 0 3px color-mix(in oklab, var(--bulb-green) 45%, transparent),
+    0 10px 24px -12px oklch(0.3 0.1 300 / 40%);
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+}
+.radio-note-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  line-height: 1.1;
+  color: var(--berry);
+}
+
+.radio-body {
+  --radio-shell: oklch(0.58 0.2 20);
+  border-radius: 26px;
+  padding: 1.25rem 1.25rem 1.1rem;
+  color: var(--primary-foreground);
+  background:
+    radial-gradient(circle at 25% 0%, oklch(0.72 0.17 18 / 70%), transparent 55%),
+    linear-gradient(170deg, var(--radio-shell), oklch(0.44 0.17 18));
+  box-shadow:
+    inset 0 0 0 3px var(--gold),
+    inset 0 -8px 0 oklch(0.36 0.14 18),
+    0 18px 30px -14px oklch(0.25 0.1 20 / 70%);
+}
+.radio-antenna {
+  position: absolute;
+  left: 16%;
+  top: -40px;
+  width: 4px;
+  height: 46px;
+  border-radius: 4px;
+  background: linear-gradient(var(--snow), oklch(0.7 0.02 300));
+  transform: rotate(-18deg);
+  transform-origin: bottom center;
+}
+.radio-antenna::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 10px 2px var(--gold);
+}
+.radio-body[data-playing="true"] .radio-antenna::before {
+  animation: knob-glint 1s ease-in-out infinite;
+}
+.radio-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  font-size: 0.85rem;
+  color: var(--gold);
+  text-shadow: 0 2px 0 oklch(0.36 0.14 18);
+}
+.radio-led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: oklch(0.45 0.08 145);
+}
+.radio-body[data-playing="true"] .radio-led {
+  background: var(--bulb-green);
+  animation: bulb-blink 0.8s ease-in-out infinite alternate;
+  --c: var(--bulb-green);
+}
+.radio-screen {
+  --lcd: oklch(0.86 0.13 165);
+  border-radius: 14px;
+  padding: 0.85rem;
+  color: var(--lcd);
+  background:
+    repeating-linear-gradient(180deg, oklch(1 0 0 / 4%) 0 2px, transparent 2px 4px),
+    linear-gradient(160deg, oklch(0.3 0.07 300), oklch(0.2 0.05 300));
+  box-shadow:
+    inset 0 0 0 3px oklch(0.18 0.04 300),
+    inset 0 4px 14px oklch(0 0 0 / 45%),
+    0 0 0 4px oklch(0.75 0.03 300);
+  text-shadow: 0 0 8px color-mix(in oklab, var(--lcd) 70%, transparent);
+}
+.radio-dancer {
+  filter: drop-shadow(0 4px 6px oklch(0 0 0 / 35%));
+  animation: dancer-idle 3s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+.radio-body[data-playing="true"] .radio-dancer {
+  animation: dancer-bop 0.6s ease-in-out infinite alternate;
+}
+@keyframes dancer-idle {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg) translateY(-3px);
+  }
+}
+@keyframes dancer-bop {
+  from {
+    transform: rotate(-8deg) translateY(0) scale(1);
+  }
+  to {
+    transform: rotate(8deg) translateY(-8px) scale(1.05);
+  }
+}
+.radio-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 34px;
+}
+.radio-eq span {
+  flex: 1;
+  height: 20%;
+  border-radius: 2px;
+  background: linear-gradient(0deg, var(--lcd), var(--bulb-pink));
+  box-shadow: 0 0 6px color-mix(in oklab, var(--lcd) 60%, transparent);
+}
+.radio-body[data-playing="true"] .radio-eq span {
+  animation: eq-bar 0.9s ease-in-out infinite alternate;
+}
+@keyframes eq-bar {
+  0% {
+    height: 15%;
+  }
+  35% {
+    height: 90%;
+  }
+  70% {
+    height: 40%;
+  }
+  100% {
+    height: 75%;
+  }
+}
+.radio-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.radio-marquee span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 11s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+.radio-lcd-small {
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+.radio-range {
+  accent-color: var(--gold);
+  height: 6px;
+  cursor: pointer;
+}
+.radio-range:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.radio-key {
+  color: var(--berry);
+  background: radial-gradient(circle at 35% 30%, var(--snow), oklch(0.86 0.03 300));
+  box-shadow:
+    0 4px 0 oklch(0.62 0.04 300),
+    0 8px 14px -6px oklch(0 0 0 / 45%);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.radio-key:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 oklch(0.62 0.04 300);
+}
+.radio-key:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.radio-key-main {
+  color: oklch(0.36 0.1 60);
+  background: radial-gradient(circle at 35% 30%, var(--glow-warm), var(--gold) 60%, oklch(0.68 0.13 70));
+  box-shadow:
+    0 5px 0 oklch(0.55 0.12 60),
+    0 10px 18px -6px oklch(0 0 0 / 45%);
+}
+.radio-icon {
+  color: var(--gold);
+}
+
+.cassette {
+  position: relative;
+  display: block;
+  aspect-ratio: 8 / 5;
+  border-radius: 6px;
+  background: linear-gradient(160deg, var(--berry), oklch(0.3 0.1 355));
+  box-shadow:
+    inset 0 0 0 2px var(--gold),
+    0 3px 6px oklch(0 0 0 / 35%);
+}
+.cassette-label {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 12%;
+  height: 22%;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--snow) 0 6px, var(--candy-pink) 6px 9px);
+}
+.cassette-window {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 14%;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  border-radius: 999px;
+  background: oklch(0.2 0.04 300);
+}
+.cassette-reel {
+  height: 72%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, oklch(0.2 0.04 300) 0 22%, transparent 24%),
+    repeating-conic-gradient(var(--snow) 0 30deg, oklch(0.7 0.03 300) 30deg 60deg);
+  animation: reel-spin 1.4s linear infinite;
+  animation-play-state: paused;
+}
+.cassette[data-playing="true"] .cassette-reel {
+  animation-play-state: running;
+}
+.cassette-tape {
+  flex: 1;
+  height: 40%;
+  margin: 0 4%;
+  border-radius: 2px;
+  background: oklch(0.38 0.06 45);
+}
+@keyframes reel-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.radio-dock {
+  border-radius: 999px;
+  color: var(--primary-foreground);
+  background: linear-gradient(170deg, oklch(0.58 0.2 20), oklch(0.44 0.17 18));
+  box-shadow:
+    inset 0 0 0 2px var(--gold),
+    0 12px 24px -10px oklch(0.25 0.1 20 / 70%);
+  animation: dock-in 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+@keyframes dock-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+  }
+}
+.radio-dock-icon {
+  color: var(--gold);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .radio-dancer,
+  .radio-marquee span,
   .envelope,
   .envelope-seal,
   .letter-paper,

@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Lights } from "@/components/Lights";
 import { SnowCanvas } from "@/components/SnowCanvas";
+import { RadioProvider } from "@/components/radio/RadioProvider";
 
 function NotFoundComponent() {
   return (
@@ -130,9 +131,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <Lights />
-      <SnowCanvas />
+      <RadioProvider>
+        <Outlet />
+        <Lights />
+        <SnowCanvas />
+      </RadioProvider>
     </QueryClientProvider>
   );
 }

@@ -33,5 +33,6 @@ use the editor.
 
 - Day data (number + sticker) lives in `src/lib/days.ts`; each door routes to `/dia/$dia`, whose page is where per-day content gets added. Why: one source of truth for the 24 doors.
 - Per-day content is a component in `src/components/days/`, registered by day number in `DAY_CONTENT` (`src/components/days/index.ts`); days without an entry show only their sticker. Why: adding a day never touches the route.
+- Music is one hidden YouTube IFrame player owned by `RadioProvider` (mounted in `__root.tsx`), exposed through `useRadio()`; the full player (day 2) and the floating dock only call its controls. Why: audio must survive page navigation, so it can't live in a page.
 - Snow (`SnowCanvas`) and blinking lights (`Lights`) are mounted once in `__root.tsx` so they run on every page. Why: the effects must never stop between screens.
 - Stickers are pre-cut transparent WebP files in `src/assets/stickers/`. Why: the originals were badly cropped sheet fragments.
