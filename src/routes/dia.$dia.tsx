@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import doorsBg from "@/assets/doors-background.jpg";
 import { getDay } from "@/lib/days";
+import { DAY_CONTENT } from "@/components/days";
 
 export const Route = createFileRoute("/dia/$dia")({
   loader: ({ params }) => {
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/dia/$dia")({
 
 function DayPage() {
   const day = Route.useLoaderData();
+  const Content = DAY_CONTENT[day.day];
 
   return (
     <main className="relative flex min-h-svh flex-col items-center justify-center px-6 py-24">
@@ -50,14 +52,25 @@ function DayPage() {
       </Link>
 
       <div className="page-enter relative flex flex-col items-center gap-6">
-        <span className="door-number text-[clamp(4rem,14vw,8rem)] leading-none">{day.day}</span>
-        <img
-          src={day.sticker}
-          alt=""
-          className="day-sticker w-[min(70vw,320px)]"
-          draggable={false}
-        />
-        {/* Aquí va el contenido de cada día */}
+        <span className="door-number text-[clamp(3.5rem,12vw,7rem)] leading-none">{day.day}</span>
+        {Content ? (
+          <div className="relative">
+            <Content />
+            <img
+              src={day.sticker}
+              alt=""
+              className="day-sticker pointer-events-none absolute -bottom-[18%] -right-[22%] w-[42%]"
+              draggable={false}
+            />
+          </div>
+        ) : (
+          <img
+            src={day.sticker}
+            alt=""
+            className="day-sticker w-[min(70vw,320px)]"
+            draggable={false}
+          />
+        )}
       </div>
     </main>
   );
