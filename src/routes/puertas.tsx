@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Home } from "lucide-react";
 import doorsBg from "@/assets/doors-background.jpg";
 import { DAYS } from "@/lib/days";
 import { Door } from "@/components/Door";
@@ -27,7 +28,14 @@ function Doors() {
         height={1088}
         className="fixed inset-0 h-full w-full object-cover"
       />
-      <div className="page-enter relative mx-auto grid max-w-6xl grid-cols-3 gap-x-3 gap-y-6 px-4 pb-16 pt-24 sm:grid-cols-4 sm:gap-x-6 lg:grid-cols-6 lg:gap-y-8">
+      <Link
+        to="/"
+        aria-label="Volver al inicio"
+        className="candy-button fixed left-5 top-20 z-30 grid h-14 w-14 place-items-center sm:left-8"
+      >
+        <Home className="h-6 w-6" strokeWidth={3} />
+      </Link>
+      <div className="page-enter relative mx-auto grid max-w-6xl grid-cols-3 gap-x-3 gap-y-6 px-4 pb-16 pt-40 sm:grid-cols-4 sm:gap-x-6 lg:grid-cols-6 lg:gap-y-8">
         {DAYS.map((day, i) => (
           <Door key={day.day} day={day} index={i} />
         ))}
