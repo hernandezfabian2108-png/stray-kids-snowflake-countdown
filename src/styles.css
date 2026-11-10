@@ -112,6 +112,12 @@
   --book-cover-dark: oklch(0.26 0.08 15);
   --book-page: oklch(0.97 0.03 88);
 
+  /* Day 4: memory + scratch cards */
+  --frost-1: oklch(0.97 0.02 260);
+  --frost-2: oklch(0.88 0.05 290);
+  --frost-3: oklch(0.84 0.06 235);
+  --frost-sparkle: oklch(1 0 0);
+
   --bulb-red: oklch(0.66 0.25 25);
   --bulb-gold: oklch(0.88 0.17 90);
   --bulb-green: oklch(0.78 0.2 145);
@@ -1210,7 +1216,341 @@
   text-shadow: 0 2px 6px oklch(0.2 0.08 300 / 60%);
 }
 
+/* ---------- Day 4: memory game + scratch deck ---------- */
+.game-modal {
+  max-height: calc(100svh - 5rem);
+  overflow-y: auto;
+}
+.phase-in {
+  animation: phase-in 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+@keyframes phase-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+.game-title {
+  padding-inline: 2.5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--berry);
+}
+.win-title {
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  color: var(--candy-red);
+  animation: win-pop 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.5) both;
+}
+@keyframes win-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-6deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12) rotate(2deg);
+  }
+}
+.win-sparkle {
+  color: var(--gold);
+  filter: drop-shadow(0 0 12px var(--gold));
+  animation: win-twinkle 1.4s ease-in-out infinite;
+}
+@keyframes win-twinkle {
+  50% {
+    transform: scale(1.18) rotate(12deg);
+    opacity: 0.8;
+  }
+}
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.5rem, 2vw, 0.9rem);
+  width: min(100%, 30rem, calc((100svh - 13rem) * 1.45));
+}
+.memory-card {
+  aspect-ratio: 3 / 4;
+  perspective: 900px;
+  border-radius: 14px;
+  cursor: pointer;
+  animation: memory-deal 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+  animation-delay: calc(var(--i) * 60ms);
+}
+.memory-card:disabled {
+  cursor: default;
+}
+@keyframes memory-deal {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) rotate(-8deg) scale(0.8);
+  }
+}
+.memory-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1.2);
+}
+.memory-card:not(:disabled):hover .memory-inner {
+  transform: translateY(-4px) rotate(-1.5deg);
+}
+.memory-card[data-flipped="true"] .memory-inner {
+  transform: rotateY(180deg);
+}
+.memory-card[data-shake="true"] .memory-inner {
+  animation: memory-shake 0.35s ease;
+}
+@keyframes memory-shake {
+  25% {
+    translate: -5px 0;
+  }
+  75% {
+    translate: 5px 0;
+  }
+}
+.memory-side {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.memory-back {
+  background:
+    radial-gradient(circle at 25% 20%, color-mix(in oklab, var(--snow) 35%, transparent) 0 2px, transparent 3px) 0 0 / 18px 18px,
+    var(--gradient-candy);
+  box-shadow:
+    inset 0 0 0 3px var(--snow),
+    inset 0 0 0 5px color-mix(in oklab, var(--gold) 80%, transparent),
+    0 8px 16px -8px oklch(0.25 0.1 300 / 55%);
+}
+.memory-back-flake {
+  width: 42%;
+  height: auto;
+  color: var(--snow);
+  filter: drop-shadow(0 2px 3px oklch(0.3 0.12 15 / 50%));
+}
+.memory-face {
+  transform: rotateY(180deg);
+  background:
+    radial-gradient(circle at 50% 45%, var(--paper-light), var(--card) 70%);
+  box-shadow:
+    inset 0 0 0 3px color-mix(in oklab, var(--gold) 80%, transparent),
+    0 8px 16px -8px oklch(0.25 0.1 300 / 55%);
+}
+.memory-img {
+  width: 82%;
+  filter: drop-shadow(0 4px 6px oklch(0.3 0.08 40 / 25%));
+}
+.memory-card[data-matched="true"] .memory-face {
+  animation: memory-match 1.6s ease-in-out infinite;
+}
+.memory-card[data-matched="true"] .memory-img {
+  animation: memory-bop 1.6s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.2s);
+}
+@keyframes memory-match {
+  50% {
+    box-shadow:
+      inset 0 0 0 3px var(--gold),
+      0 0 18px 4px color-mix(in oklab, var(--gold) 70%, transparent);
+  }
+}
+@keyframes memory-bop {
+  50% {
+    transform: translateY(-5%) rotate(4deg) scale(1.04);
+  }
+}
+
+.deck {
+  --card-w: min(19rem, calc(100vw - 5rem), calc((100svh - 21rem) * 0.75));
+}
+.deck-stage {
+  width: var(--card-w);
+  aspect-ratio: 3 / 4;
+  touch-action: pan-y;
+}
+.deck-slide {
+  height: 100%;
+  animation: deck-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+.deck-slide[data-dir="-1"] {
+  animation-name: deck-in-back;
+}
+@keyframes deck-in {
+  from {
+    opacity: 0;
+    transform: translateX(45px) rotate(5deg) scale(0.94);
+  }
+}
+@keyframes deck-in-back {
+  from {
+    opacity: 0;
+    transform: translateX(-45px) rotate(-5deg) scale(0.94);
+  }
+}
+.scratch-card {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 18px 34px -14px oklch(0.2 0.08 300 / 60%);
+}
+.scratch-card[data-celebrate="true"] {
+  animation: scratch-glow 1.1s ease both;
+}
+@keyframes scratch-glow {
+  40% {
+    box-shadow:
+      0 0 0 4px var(--gold),
+      0 0 34px 10px color-mix(in oklab, var(--gold) 65%, transparent);
+    transform: scale(1.03);
+  }
+}
+.scratch-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--card-w) * 0.09) calc(var(--card-w) * 0.1) calc(var(--card-w) * 0.06);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 30% 15%, var(--book-page), transparent 60%),
+    radial-gradient(ellipse at 80% 90%, color-mix(in oklab, var(--paper-burn) 22%, transparent), transparent 60%),
+    color-mix(in oklab, var(--book-page) 75%, var(--paper));
+  box-shadow:
+    inset 0 0 0 8px transparent,
+    inset 0 0 0 10px color-mix(in oklab, var(--candy-red) 55%, transparent),
+    inset 0 0 0 13px transparent,
+    inset 0 0 0 14px color-mix(in oklab, var(--gold) 70%, transparent);
+  border-radius: inherit;
+}
+.scratch-num {
+  font-family: var(--font-script);
+  font-size: calc(var(--card-w) * 0.13);
+  line-height: 1;
+  color: var(--candy-red);
+}
+.scratch-message {
+  margin-block: auto;
+  font-family: var(--font-book);
+  font-style: italic;
+  font-weight: 500;
+  font-size: calc(var(--card-w) * 0.071);
+  line-height: 1.35;
+  text-align: center;
+  text-wrap: pretty;
+}
+.scratch-sticker {
+  width: 28%;
+  filter: drop-shadow(0 4px 6px oklch(0.3 0.08 40 / 25%));
+}
+.scratch-card[data-revealed="true"] .scratch-sticker {
+  animation: memory-bop 2.4s ease-in-out infinite;
+}
+.scratch-badge {
+  position: absolute;
+  top: calc(var(--card-w) * 0.07);
+  right: calc(var(--card-w) * 0.07);
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  color: var(--accent-foreground);
+  background: var(--gold);
+  box-shadow: 0 2px 6px oklch(0.4 0.1 60 / 40%);
+}
+.scratch-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  cursor: grab;
+  touch-action: none;
+  transition: opacity 0.7s ease, filter 0.7s ease;
+}
+.scratch-canvas[data-clearing="true"] {
+  opacity: 0;
+  filter: blur(6px) brightness(1.4);
+  pointer-events: none;
+}
+.deck-hint {
+  font-family: var(--font-letter);
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--berry);
+  animation: hint-pulse 1.8s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+.deck-hint[data-hidden="true"] {
+  opacity: 0;
+  animation: none;
+}
+@keyframes hint-pulse {
+  50% {
+    transform: translateY(-3px);
+    opacity: 0.7;
+  }
+}
+.deck-counter {
+  font-family: var(--font-letter);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--berry);
+}
+.deck-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 20rem;
+}
+.deck-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--berry) 22%, transparent);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+.deck-dot[data-read="true"] {
+  background: var(--gold);
+  box-shadow: 0 0 6px color-mix(in oklab, var(--gold) 70%, transparent);
+}
+.deck-dot[data-current="true"] {
+  transform: scale(1.5);
+  outline: 2px solid var(--candy-red);
+  outline-offset: 1px;
+}
+.deck-replay {
+  color: var(--berry);
+  background: color-mix(in oklab, var(--berry) 12%, transparent);
+  transition: background 0.2s ease, rotate 0.4s ease;
+}
+.deck-replay:hover {
+  background: color-mix(in oklab, var(--berry) 22%, transparent);
+  rotate: -180deg;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .memory-card,
+  .memory-card[data-matched="true"] .memory-face,
+  .memory-card[data-matched="true"] .memory-img,
+  .deck-slide,
+  .deck-hint,
+  .win-sparkle,
+  .scratch-card[data-revealed="true"] .scratch-sticker,
   .radio-dancer,
   .radio-marquee span,
   .minibook,
