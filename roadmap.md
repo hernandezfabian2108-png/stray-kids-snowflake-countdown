@@ -6,4 +6,5 @@
 - [x] Al cerrar el día 2, la radio se minimiza a un casete flotante con play/pausa y volumen
 - [x] Día 3: mini libro "Cosas que mereces saber" con portada y 20 páginas que se pasan con efecto de hoja
 - [x] Día 4: memoria SKZOO + 30 tarjetas para raspar
+- [ ] Día 5: máquina de garra SKZOO + ticket dorado con carta
 - [x] Día 7: Noche de las Velitas (fósforo, vela, carta y lluvia de corazones)

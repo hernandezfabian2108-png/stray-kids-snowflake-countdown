@@ -118,6 +118,16 @@
   --frost-3: oklch(0.84 0.06 235);
   --frost-sparkle: oklch(1 0 0);
 
+  /* Day 5: claw machine */
+  --arcade-night: oklch(0.2 0.07 15);
+  --arcade-night-deep: oklch(0.13 0.05 330);
+  --cabinet: oklch(0.55 0.2 22);
+  --cabinet-dark: oklch(0.38 0.15 20);
+  --glass-tint: oklch(0.8 0.06 230);
+  --cream: oklch(0.97 0.025 88);
+  --cream-deep: oklch(0.91 0.05 85);
+  --gold-deep: oklch(0.62 0.13 72);
+
   /* Day 7: candle night */
   --midnight: oklch(0.24 0.08 265);
   --midnight-deep: oklch(0.13 0.05 270);
@@ -2022,7 +2032,577 @@
   45% { scale: 1.2; }
 }
 
+/* ---------- Day 5: claw machine ---------- */
+.claw-mini {
+  border-radius: 28px;
+  color: var(--gold);
+  background: radial-gradient(circle at 50% 35%, color-mix(in oklab, var(--gold) 30%, transparent), transparent 60%),
+    linear-gradient(170deg, var(--cabinet), var(--cabinet-dark));
+  box-shadow: inset 0 0 0 3px var(--gold), 0 14px 28px -10px oklch(0.15 0.06 20 / 70%);
+  transition: transform 0.2s ease;
+}
+.claw-mini:hover {
+  transform: translateY(-3px) scale(1.04);
+}
+.claw-mini-icon {
+  filter: drop-shadow(0 0 10px var(--gold));
+  animation: ticket-bob 2.4s ease-in-out infinite;
+}
+@keyframes ticket-bob {
+  0%, 100% { transform: rotate(-8deg) translateY(0); }
+  50% { transform: rotate(8deg) translateY(-4px); }
+}
+
+.claw-scene {
+  color: var(--snow);
+  background:
+    radial-gradient(ellipse at 50% 110%, color-mix(in oklab, var(--gold) 25%, transparent), transparent 55%),
+    radial-gradient(ellipse at 15% 0%, oklch(0.35 0.14 20 / 70%), transparent 55%),
+    linear-gradient(180deg, var(--arcade-night-deep), var(--arcade-night) 70%, oklch(0.26 0.09 25));
+  animation: backdrop-in 0.6s ease both;
+  overscroll-behavior: contain;
+}
+.claw-bokeh {
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0.18;
+  filter: blur(14px);
+  animation: bokeh-breathe 6s ease-in-out infinite;
+}
+@keyframes bokeh-breathe {
+  0%, 100% { opacity: 0.1; transform: scale(0.85); }
+  50% { opacity: 0.32; transform: scale(1.1); }
+}
+.claw-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 6.5vw, 3.4rem);
+  line-height: 1.05;
+  color: var(--glow-warm);
+  text-shadow: 0 3px 0 var(--cabinet-dark), 0 0 22px color-mix(in oklab, var(--gold) 65%, transparent);
+}
+.claw-subtitle {
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  line-height: 1.4;
+  color: color-mix(in oklab, var(--snow) 85%, var(--gold));
+  text-wrap: balance;
+}
+
+.claw-cabinet {
+  position: relative;
+  width: min(92vw, 400px);
+  padding: 0 14px 16px;
+  border-radius: 34px 34px 22px 22px;
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--snow) 18%, transparent), transparent 18%, transparent 82%, oklch(0 0 0 / 18%)),
+    linear-gradient(180deg, var(--cabinet), var(--cabinet-dark));
+  box-shadow:
+    inset 0 0 0 4px var(--gold),
+    inset 0 0 0 7px var(--cabinet-dark),
+    0 0 60px -10px color-mix(in oklab, var(--bulb-red) 60%, transparent),
+    0 30px 60px -20px oklch(0.05 0.03 20 / 85%);
+}
+.claw-marquee {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 46px;
+  padding: 0 14px;
+}
+.claw-bulb {
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  background: var(--glow-warm);
+  box-shadow: 0 0 10px 3px color-mix(in oklab, var(--gold) 85%, transparent);
+  animation: marquee-blink 0.9s steps(1) infinite;
+}
+@keyframes marquee-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; box-shadow: none; }
+}
+.claw-marquee-star {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  translate: -50% -50%;
+  color: var(--gold);
+  fill: var(--gold);
+  filter: drop-shadow(0 0 8px var(--gold));
+  animation: star-spin 6s linear infinite;
+}
+@keyframes star-spin {
+  to { rotate: 360deg; }
+}
+
+.claw-glass {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 10 / 11;
+  overflow: hidden;
+  border-radius: 14px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  background:
+    radial-gradient(ellipse at 50% 100%, color-mix(in oklab, var(--snow) 85%, transparent) 0 14%, transparent 15%),
+    radial-gradient(ellipse at 50% 0%, color-mix(in oklab, var(--glow-warm) 35%, transparent), transparent 60%),
+    linear-gradient(180deg, color-mix(in oklab, var(--glass-tint) 30%, var(--arcade-night-deep)), color-mix(in oklab, var(--glass-tint) 45%, var(--arcade-night)));
+  box-shadow:
+    inset 0 0 0 3px color-mix(in oklab, var(--snow) 35%, transparent),
+    inset 0 -30px 40px -20px color-mix(in oklab, var(--snow) 40%, transparent),
+    0 0 0 4px var(--cabinet-dark);
+}
+.claw-glass[data-dragging="true"] {
+  cursor: grabbing;
+}
+.claw-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 18%, color-mix(in oklab, var(--snow) 22%, transparent) 20%, transparent 27%),
+    linear-gradient(115deg, transparent 32%, color-mix(in oklab, var(--snow) 12%, transparent) 33%, transparent 36%);
+  z-index: 6;
+}
+.claw-rail {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 1%;
+  height: 2.2%;
+  border-radius: 99px;
+  background: linear-gradient(180deg, var(--glow-warm), var(--gold-deep));
+  z-index: 5;
+}
+
+.claw-plush {
+  position: absolute;
+  width: 21%;
+  translate: -50% 0;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 4px oklch(0.1 0.04 20 / 45%));
+  transform-origin: 50% 100%;
+  animation: plush-wiggle 3.2s ease-in-out infinite;
+}
+.claw-plush[data-row="front"] {
+  bottom: 3%;
+  z-index: 3;
+}
+.claw-plush[data-row="back"] {
+  bottom: 15%;
+  z-index: 2;
+}
+@keyframes plush-wiggle {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg) translateY(-2%); }
+}
+.claw-ticket-buried {
+  position: absolute;
+  left: 60%;
+  bottom: 4%;
+  width: 34%;
+  height: 12%;
+  translate: -50% 0;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+  border-radius: 6px;
+  color: var(--gold-deep);
+  background: linear-gradient(135deg, var(--glow-warm), var(--gold) 50%, var(--glow-warm));
+  box-shadow: 0 0 22px 4px color-mix(in oklab, var(--gold) 70%, transparent);
+  animation: ticket-glow 2s ease-in-out infinite;
+  transition: transform 1s cubic-bezier(0.3, 0.8, 0.3, 1), opacity 1s ease;
+}
+.claw-ticket-buried[data-free="true"] {
+  transform: translateY(-500%) scale(1.4);
+  opacity: 0;
+}
+@keyframes ticket-glow {
+  0%, 100% { box-shadow: 0 0 14px 2px color-mix(in oklab, var(--gold) 55%, transparent); }
+  50% { box-shadow: 0 0 30px 8px color-mix(in oklab, var(--gold) 85%, transparent); }
+}
+.claw-chute {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 20%;
+  height: 32%;
+  z-index: 4;
+  border-radius: 0 10px 0 0;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--snow) 16%, transparent), oklch(0.08 0.03 20 / 75%));
+  box-shadow: inset 0 5px 0 var(--gold), inset -3px 0 0 color-mix(in oklab, var(--snow) 30%, transparent);
+}
+.claw-falling {
+  position: absolute;
+  width: 18%;
+  translate: -50% 0;
+  z-index: 4;
+  pointer-events: none;
+  animation: plush-fall 0.6s cubic-bezier(0.5, 0, 0.9, 0.6) both;
+}
+@keyframes plush-fall {
+  from { top: 18%; opacity: 1; }
+  80% { opacity: 1; }
+  to { top: 98%; opacity: 0; }
+}
+
+.claw-cable {
+  position: absolute;
+  top: 2%;
+  width: 3px;
+  translate: -50% 0;
+  z-index: 5;
+  background: repeating-linear-gradient(180deg, var(--snow) 0 4px, color-mix(in oklab, var(--snow) 55%, transparent) 4px 8px);
+}
+.claw-head {
+  position: absolute;
+  width: 17%;
+  aspect-ratio: 1 / 1.1;
+  translate: -50% 0;
+  z-index: 5;
+}
+.claw-hub {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 62%;
+  height: 34%;
+  translate: -50% 0;
+  border-radius: 40% 40% 30% 30%;
+  background: linear-gradient(180deg, var(--glow-warm), var(--gold) 55%, var(--gold-deep));
+  box-shadow: inset 0 -3px 0 oklch(0 0 0 / 18%), 0 0 12px color-mix(in oklab, var(--gold) 50%, transparent);
+  z-index: 2;
+}
+.claw-arm {
+  position: absolute;
+  top: 24%;
+  width: 14%;
+  height: 72%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--snow), color-mix(in oklab, var(--snow) 60%, var(--glass-tint)));
+  transform-origin: 50% 5%;
+  transition: transform 0.28s ease;
+  z-index: 1;
+}
+.claw-arm::after {
+  content: "";
+  position: absolute;
+  bottom: -4%;
+  width: 190%;
+  height: 16%;
+  border-radius: 99px;
+  background: inherit;
+}
+.claw-arm-l {
+  left: 22%;
+  transform: rotate(16deg);
+}
+.claw-arm-l::after {
+  left: 0;
+}
+.claw-arm-r {
+  right: 22%;
+  transform: rotate(-16deg);
+}
+.claw-arm-r::after {
+  right: 0;
+}
+.claw-head[data-busy="true"]:not([data-closed="true"]) .claw-arm-l {
+  transform: rotate(34deg);
+}
+.claw-head[data-busy="true"]:not([data-closed="true"]) .claw-arm-r {
+  transform: rotate(-34deg);
+}
+.claw-head[data-closed="true"] .claw-arm-l {
+  transform: rotate(4deg);
+}
+.claw-head[data-closed="true"] .claw-arm-r {
+  transform: rotate(-4deg);
+}
+.claw-held {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 125%;
+  max-width: none;
+  translate: -50% 0;
+  z-index: 0;
+  animation: plush-swing 0.9s ease-in-out infinite;
+}
+@keyframes plush-swing {
+  0%, 100% { rotate: -5deg; }
+  50% { rotate: 5deg; }
+}
+
+.claw-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+.claw-arrow {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: 18px;
+  color: var(--accent-foreground);
+  background: linear-gradient(180deg, var(--glow-warm), var(--gold));
+  box-shadow: 0 5px 0 var(--gold-deep), inset 0 2px 0 color-mix(in oklab, var(--snow) 70%, transparent);
+  touch-action: none;
+  user-select: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.claw-arrow:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--gold-deep);
+}
+.claw-drop {
+  flex: 1;
+  min-height: 56px;
+  border-radius: 999px;
+  padding: 0 1rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 3.6vw, 1.25rem);
+  color: var(--primary-foreground);
+  background: radial-gradient(circle at 50% 25%, var(--candy-pink), var(--candy-red) 60%);
+  box-shadow: 0 6px 0 var(--cabinet-dark), 0 0 0 3px var(--gold), 0 0 24px -4px color-mix(in oklab, var(--candy-red) 80%, transparent);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.2s ease;
+}
+.claw-drop:not(:disabled):active {
+  transform: translateY(5px);
+  box-shadow: 0 1px 0 var(--cabinet-dark), 0 0 0 3px var(--gold);
+}
+.claw-drop:disabled {
+  filter: saturate(0.5) brightness(0.85);
+  cursor: default;
+}
+.claw-door {
+  position: absolute;
+  left: 22px;
+  bottom: -10px;
+  width: 64px;
+  height: 14px;
+  border-radius: 0 0 10px 10px;
+  background: var(--cabinet-dark);
+  box-shadow: inset 0 3px 0 var(--gold);
+}
+
+.claw-tray {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--arcade-night-deep) 70%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--gold) 70%, transparent);
+}
+.claw-count {
+  min-width: 3.2em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-align: center;
+  color: var(--glow-warm);
+  text-shadow: 0 0 10px var(--gold);
+}
+.claw-slot {
+  display: grid;
+  place-items: center;
+  width: clamp(36px, 10vw, 46px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--snow) 10%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--snow) 20%, transparent);
+}
+.claw-slot[data-got="true"] {
+  background: radial-gradient(circle, color-mix(in oklab, var(--gold) 45%, transparent), transparent 70%);
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+.claw-slot-img {
+  width: 92%;
+  animation: plush-wiggle 3s ease-in-out infinite;
+}
+.claw-slot-new {
+  animation: slot-pop 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.6) both, plush-wiggle 3s ease-in-out 0.7s infinite;
+}
+@keyframes slot-pop {
+  from { transform: translateY(-40px) scale(0.2); opacity: 0; }
+}
+
+/* Golden ticket */
+.ticket-overlay {
+  background: radial-gradient(circle at 50% 45%, color-mix(in oklab, var(--gold) 28%, transparent), oklch(0.08 0.03 20 / 82%) 70%);
+  backdrop-filter: blur(4px);
+  animation: backdrop-in 0.6s ease both;
+}
+.golden-ticket {
+  position: relative;
+  display: grid;
+  place-items: center;
+  animation: ticket-rise 1.4s cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+}
+@keyframes ticket-rise {
+  from { transform: translateY(45vh) scale(0.3) rotate(-20deg); opacity: 0; }
+  60% { opacity: 1; }
+}
+.golden-ticket-rays {
+  position: absolute;
+  width: 190%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: repeating-conic-gradient(color-mix(in oklab, var(--glow-warm) 45%, transparent) 0 8deg, transparent 8deg 22deg);
+  mask: radial-gradient(circle, black 20%, transparent 68%);
+  animation: star-spin 14s linear infinite;
+  pointer-events: none;
+}
+.golden-ticket-body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.4rem 2rem;
+  border-radius: 12px;
+  color: var(--accent-foreground);
+  background:
+    linear-gradient(115deg, transparent 30%, color-mix(in oklab, var(--snow) 65%, transparent) 45%, transparent 60%) 0 0 / 250% 100%,
+    linear-gradient(135deg, var(--glow-warm), var(--gold) 45%, var(--gold-deep) 70%, var(--gold));
+  mask:
+    radial-gradient(circle at 0 50%, transparent 14px, black 15px) left / 51% 100% no-repeat,
+    radial-gradient(circle at 100% 50%, transparent 14px, black 15px) right / 51% 100% no-repeat;
+  box-shadow: inset 0 0 0 3px color-mix(in oklab, var(--snow) 50%, transparent);
+  animation: ticket-shine 2.6s ease-in-out infinite, ticket-float 3s ease-in-out infinite;
+}
+.golden-ticket:hover .golden-ticket-body {
+  scale: 1.05;
+}
+@keyframes ticket-shine {
+  from { background-position: 120% 0, 0 0; }
+  to { background-position: -120% 0, 0 0; }
+}
+@keyframes ticket-float {
+  0%, 100% { translate: 0 0; rotate: -3deg; }
+  50% { translate: 0 -8px; rotate: 3deg; }
+}
+.golden-ticket-word {
+  font-family: var(--font-book);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 5vw, 1.9rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ticket-invite {
+  font-family: var(--font-book);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--glow-warm);
+  animation: invite-pulse 2s ease-in-out infinite;
+}
+@keyframes invite-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+.ticket-card {
+  color: var(--ink);
+  border-radius: 16px;
+  padding: clamp(2rem, 6vw, 3rem) clamp(1.4rem, 6vw, 3rem);
+  background:
+    radial-gradient(ellipse at 15% 10%, var(--snow), transparent 55%),
+    linear-gradient(180deg, var(--cream), var(--cream-deep));
+  box-shadow:
+    inset 0 0 0 2px var(--gold),
+    inset 0 0 0 9px transparent,
+    inset 0 0 0 10px color-mix(in oklab, var(--gold) 70%, transparent),
+    0 0 60px -10px color-mix(in oklab, var(--gold) 80%, transparent),
+    0 30px 60px -18px oklch(0.05 0.03 20 / 80%);
+  transform-origin: top center;
+  animation: letter-unfold 0.95s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+}
+.ticket-heading {
+  font-family: var(--font-book);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 3.4vw, 1.4rem);
+  letter-spacing: 0.16em;
+  text-align: center;
+  color: var(--gold-deep);
+  text-wrap: balance;
+}
+.ticket-rule {
+  display: block;
+  width: 40%;
+  height: 2px;
+  margin: 0.9rem auto 1.4rem;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.ticket-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9em;
+  font-family: var(--font-book);
+  font-size: clamp(1.15rem, 2.4vw, 1.35rem);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.ticket-text p:first-child::first-letter {
+  float: left;
+  margin-right: 0.08em;
+  font-family: var(--font-script);
+  font-size: 3em;
+  line-height: 0.85;
+  color: var(--gold-deep);
+}
+.ticket-sign {
+  margin-top: 0.3em;
+  text-align: right;
+  font-family: var(--font-script);
+  font-size: 1.4em;
+  color: var(--berry);
+}
+.ticket-button {
+  border-radius: 999px;
+  padding: 0.7rem 1.6rem;
+  font-family: var(--font-book);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  color: var(--gold-deep);
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--gold);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.ticket-button:hover {
+  background: color-mix(in oklab, var(--gold) 14%, transparent);
+}
+.ticket-button[data-saved="true"] {
+  color: var(--accent-foreground);
+  background: linear-gradient(180deg, var(--glow-warm), var(--gold));
+}
+
+.door-done {
+  color: var(--accent-foreground);
+  background: linear-gradient(180deg, var(--glow-warm), var(--gold));
+  box-shadow: 0 0 0 2px var(--snow), 0 0 14px 2px color-mix(in oklab, var(--gold) 80%, transparent);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .claw-bokeh,
+  .claw-mini-icon,
+  .claw-bulb,
+  .claw-marquee-star,
+  .claw-plush,
+  .claw-held,
+  .claw-slot-img,
+  .golden-ticket-rays,
+  .golden-ticket-body,
+  .ticket-invite,
+  .ticket-card,
   .velitas-star,
   .velitas-ember,
   .velitas-mini-flame,

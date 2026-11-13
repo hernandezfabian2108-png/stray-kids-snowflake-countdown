@@ -16,7 +16,19 @@ type Piece = {
 };
 
 /** A soft shower of glowing hearts and golden sparkles falling over the whole screen. */
-export function WishRain({ duration = 5200 }: { duration?: number }) {
+export function WishRain({
+  duration = 5200,
+  hearts = true,
+  density = 1,
+  colorTokens = COLOR_TOKENS,
+}: {
+  duration?: number;
+  /** false = only sparkles. */
+  hearts?: boolean;
+  /** 1 = full shower, lower = subtler. */
+  density?: number;
+  colorTokens?: string[];
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -39,8 +51,8 @@ export function WishRain({ duration = 5200 }: { duration?: number }) {
     window.addEventListener("resize", resize);
 
     const css = getComputedStyle(document.documentElement);
-    const colors = COLOR_TOKENS.map((t) => css.getPropertyValue(t).trim()).filter(Boolean);
-    const count = reduce ? 30 : Math.min(130, Math.max(70, Math.round(W / 10)));
+    const colors = colorTokens.map((t) => css.getPropertyValue(t).trim()).filter(Boolean);
+    const count = Math.round((reduce ? 30 : Math.min(130, Math.max(70, Math.round(W / 10)))) * density);
 
     const pieces: Piece[] = Array.from({ length: count }, (_, i) => ({
       x: Math.random() * W,
@@ -52,7 +64,7 @@ export function WishRain({ duration = 5200 }: { duration?: number }) {
       sway: 0.6 + Math.random() * 1.4,
       phase: Math.random() * Math.PI * 2,
       color: colors[i % colors.length] ?? "gold",
-      heart: i % 2 === 0,
+      heart: hearts && i % 2 === 0,
     }));
 
     const heart = (s: number) => {
@@ -105,7 +117,8 @@ export function WishRain({ duration = 5200 }: { duration?: number }) {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
     };
-  }, [duration]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [duration, hearts, density]);
 
   return <canvas ref={ref} aria-hidden className="pointer-events-none fixed inset-0 z-30 h-full w-full" />;
 }
