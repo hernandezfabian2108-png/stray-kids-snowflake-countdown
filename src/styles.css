@@ -17,6 +17,7 @@
   --font-letter: "Caveat", "Segoe Print", cursive;
   --font-book: "Cormorant Garamond", Georgia, serif;
   --font-script: "Great Vibes", "Caveat", cursive;
+  --font-pixel: "Pixelify Sans", "Courier New", monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -3109,5 +3110,286 @@
   }
   .obs-constellation-line {
     animation-duration: 0.01s;
+  }
+}
+
+/* ---------- Day 8: pixel-art serenade (Te la dedico) ---------- */
+.serenata-mini,
+.serenata-scene {
+  --px-night: oklch(0.16 0.06 275);
+  --px-deep: oklch(0.1 0.04 280);
+  --px-gold: oklch(0.84 0.15 85);
+  --px-gold-dark: oklch(0.6 0.13 70);
+  --px-ink: oklch(0.22 0.05 40);
+  --px-cream: oklch(0.95 0.04 85);
+  --px-rose: oklch(0.6 0.19 18);
+}
+.serenata-mini {
+  color: var(--px-gold);
+  background: var(--px-night);
+  box-shadow:
+    0 -4px 0 0 var(--px-gold-dark),
+    0 4px 0 0 var(--px-gold-dark),
+    -4px 0 0 0 var(--px-gold-dark),
+    4px 0 0 0 var(--px-gold-dark),
+    0 14px 0 -2px var(--px-deep);
+  transition: transform 0.2s steps(3);
+}
+.serenata-mini:hover {
+  transform: translateY(-4px);
+}
+.serenata-mini-icon {
+  animation: serenata-strum-icon 0.9s steps(2) infinite;
+}
+@keyframes serenata-strum-icon {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(6deg); }
+}
+
+.serenata-scene {
+  background:
+    radial-gradient(circle at 50% 30%, color-mix(in oklab, var(--px-rose) 18%, transparent), transparent 60%),
+    linear-gradient(180deg, var(--px-night), var(--px-deep));
+  image-rendering: pixelated;
+}
+.serenata-title {
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--px-gold);
+  text-shadow:
+    3px 0 0 var(--px-ink),
+    -3px 0 0 var(--px-ink),
+    0 3px 0 var(--px-ink),
+    0 -3px 0 var(--px-ink),
+    4px 5px 0 var(--px-rose);
+  animation: serenata-title-bob 2.4s steps(4) infinite;
+}
+@keyframes serenata-title-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.serenata-stage {
+  width: clamp(280px, min(94vw, calc(100svh - 13.5rem)), 760px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 4px var(--px-ink),
+    0 0 0 8px var(--px-gold-dark),
+    0 0 0 12px var(--px-ink),
+    0 24px 50px -10px oklch(0.05 0.03 280 / 80%);
+}
+.serenata-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+  user-select: none;
+}
+.serenata-scene[data-playing="true"] .serenata-bg {
+  animation: serenata-warm 3s steps(6) infinite;
+}
+@keyframes serenata-warm {
+  0%, 100% { filter: saturate(1) brightness(1); }
+  50% { filter: saturate(1.12) brightness(1.06); }
+}
+
+.serenata-twinkle {
+  position: absolute;
+  width: 0.5%;
+  aspect-ratio: 1;
+  background: var(--px-cream);
+  animation: serenata-twinkle 2.6s steps(2) infinite;
+}
+.serenata-twinkle[data-big="true"] {
+  width: 0.7%;
+  box-shadow:
+    0.35vmin 0 0 0 color-mix(in oklab, var(--px-cream) 60%, transparent),
+    -0.35vmin 0 0 0 color-mix(in oklab, var(--px-cream) 60%, transparent),
+    0 0.35vmin 0 0 color-mix(in oklab, var(--px-cream) 60%, transparent),
+    0 -0.35vmin 0 0 color-mix(in oklab, var(--px-cream) 60%, transparent);
+}
+@keyframes serenata-twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+.serenata-lantern {
+  position: absolute;
+  width: 9%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in oklab, var(--px-gold) 55%, transparent), transparent 65%);
+  mix-blend-mode: screen;
+  animation: serenata-flicker 1.6s steps(3) infinite;
+}
+@keyframes serenata-flicker {
+  0%, 100% { opacity: 0.55; scale: 1; }
+  40% { opacity: 0.9; scale: 1.08; }
+  70% { opacity: 0.65; scale: 0.96; }
+}
+
+.serenata-manolo {
+  position: absolute;
+  left: 16%;
+  bottom: 2.5%;
+  height: 42%;
+  aspect-ratio: 30 / 48;
+  cursor: pointer;
+  filter: drop-shadow(0 6px 0 oklch(0.08 0.03 280 / 55%));
+  animation: serenata-sway 2.2s steps(2) infinite;
+}
+.serenata-manolo[data-strumming="true"] {
+  animation: serenata-bounce 0.68s steps(2) infinite;
+}
+.serenata-manolo:focus-visible {
+  outline: 4px solid var(--px-gold);
+  outline-offset: 4px;
+}
+@keyframes serenata-sway {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5%); }
+}
+@keyframes serenata-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2.5%); }
+}
+.serenata-hint {
+  position: absolute;
+  left: 50%;
+  top: -22%;
+  width: 34%;
+  translate: -50% 0;
+  animation: serenata-hint 0.8s steps(2) infinite;
+}
+@keyframes serenata-hint {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(25%); }
+}
+
+.serenata-note {
+  position: absolute;
+  left: var(--x0);
+  top: var(--y0);
+  pointer-events: none;
+  animation-name: serenata-note-fly;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  filter: drop-shadow(0 0 6px color-mix(in oklab, var(--px-gold) 70%, transparent));
+}
+@keyframes serenata-note-fly {
+  0% { left: var(--x0); top: var(--y0); opacity: 0; transform: translateX(0) rotate(0deg); }
+  12% { opacity: 1; }
+  35% { transform: translateX(-40%) rotate(-10deg); }
+  65% { transform: translateX(40%) rotate(10deg); }
+  85% { opacity: 1; }
+  100% { left: var(--x1); top: var(--y1); opacity: 0; transform: translateX(0) rotate(0deg); }
+}
+.serenata-heart {
+  position: absolute;
+  top: 20%;
+  width: 3.6%;
+  pointer-events: none;
+  animation: serenata-heart-rise 3.6s steps(12) infinite;
+}
+@keyframes serenata-heart-rise {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-260%); opacity: 0; }
+}
+
+.serenata-player {
+  max-width: clamp(280px, min(94vw, calc(100svh - 13.5rem)), 760px);
+  min-height: 80px;
+  background: var(--px-deep);
+  box-shadow: 0 0 0 4px var(--px-ink), 0 0 0 8px var(--px-gold-dark);
+}
+.serenata-player iframe {
+  display: block;
+  border: 0;
+}
+
+.serenata-letter-wrap {
+  background: color-mix(in oklab, var(--px-deep) 72%, transparent);
+}
+.serenata-letter {
+  padding: clamp(1.75rem, 5vw, 2.75rem) clamp(1.25rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 2.25rem);
+  color: var(--px-ink);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 7px, color-mix(in oklab, var(--px-gold) 10%, transparent) 7px 8px),
+    var(--px-cream);
+  box-shadow:
+    0 0 0 4px var(--px-ink),
+    0 0 0 8px var(--px-gold),
+    0 0 0 12px var(--px-ink),
+    12px 16px 0 6px color-mix(in oklab, var(--px-rose) 55%, transparent);
+}
+.serenata-letter-heart {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2.75rem;
+  translate: -50% -60%;
+  animation: serenata-beat 1s steps(2) infinite;
+}
+@keyframes serenata-beat {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.15; }
+}
+.serenata-letter-text {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+  line-height: 1.65;
+  text-align: center;
+  text-wrap: pretty;
+}
+.serenata-read-bar {
+  display: block;
+  width: 10rem;
+  height: 8px;
+  background: linear-gradient(90deg, var(--px-gold) 0 0) left / 0% 100% no-repeat, color-mix(in oklab, var(--px-ink) 18%, transparent);
+  box-shadow: 0 0 0 2px var(--px-ink);
+  animation: serenata-read linear forwards;
+}
+@keyframes serenata-read {
+  to { background-size: 100% 100%, auto; }
+}
+.serenata-done {
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.7rem 1.4rem;
+  color: var(--px-ink);
+  background: var(--px-gold);
+  box-shadow:
+    0 0 0 3px var(--px-ink),
+    0 6px 0 3px var(--px-ink);
+  transition: transform 0.15s steps(2), opacity 0.3s;
+}
+.serenata-done:not(:disabled):hover {
+  transform: translateY(-3px);
+}
+.serenata-done:not(:disabled):active {
+  transform: translateY(3px);
+}
+.serenata-done:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .serenata-title,
+  .serenata-manolo,
+  .serenata-twinkle,
+  .serenata-lantern,
+  .serenata-hint,
+  .serenata-mini-icon,
+  .serenata-letter-heart {
+    animation: none;
   }
 }
